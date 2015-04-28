@@ -12,27 +12,27 @@
 -- -----------------------------------------------------
 -- Schema public
 -- -----------------------------------------------------
---CREATE SCHEMA IF NOT EXISTS public DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+--CREATE SCHEMA public DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
 --USE public ;
 
 -- -----------------------------------------------------
 -- Table `public`.`Countries`
 -- -----------------------------------------------------
-CREATE SEQUENCE mobility_description;
+CREATE SEQUENCE Countries_seq;
 
-CREATE TABLE IF NOT EXISTS public.Countries (
-  country_id INT CHECK (country_id > 0) NOT NULL DEFAULT NEXTVAL ('public.Countries_seq'),
+CREATE TABLE Countries (
+  country_id INT CHECK (country_id > 0) NOT NULL DEFAULT NEXTVAL ('Countries_seq'),
   country_name VARCHAR(45) NOT NULL,
   PRIMARY KEY (country_id));
 
 -- -----------------------------------------------------
 -- Table `public`.`Schools`
 -- -----------------------------------------------------
-CREATE SEQUENCE country_id;
+CREATE SEQUENCE Schools_seq;
 
-CREATE TABLE IF NOT EXISTS public.Schools (
-  school_id INT CHECK (school_id > 0) NOT NULL DEFAULT NEXTVAL ('public.Schools_seq'),
-  country_id INT CHECK (country_id > 0) NOT NULL REFERENCES public.Countries (country_id) ON DELETE CASCADE ON UPDATE CASCADE,
+CREATE TABLE Schools (
+  school_id INT CHECK (school_id > 0) NOT NULL DEFAULT NEXTVAL ('Schools_seq'),
+  country_id INT CHECK (country_id > 0) NOT NULL REFERENCES Countries (country_id) ON DELETE CASCADE ON UPDATE CASCADE,
   school_name VARCHAR(45) NOT NULL,
   school_desc TEXT NULL,
   PRIMARY KEY (school_id));
@@ -41,20 +41,20 @@ CREATE TABLE IF NOT EXISTS public.Schools (
 -- -----------------------------------------------------
 -- Table `public`.`Groups`
 -- -----------------------------------------------------
-CREATE SEQUENCE fk_Groups_1;
+CREATE SEQUENCE Groups_seq;
 
-CREATE TABLE IF NOT EXISTS public.Groups (
-  group_id INT CHECK (group_id > 0) NOT NULL DEFAULT NEXTVAL ('public.Groups_seq'),
-  school_id INT CHECK (school_id > 0) NOT NULL REFERENCES public.Schools (school_id) ON DELETE CASCADE ON UPDATE CASCADE,
+CREATE TABLE Groups (
+  group_id INT CHECK (group_id > 0) NOT NULL DEFAULT NEXTVAL ('Groups_seq'),
+  school_id INT CHECK (school_id > 0) NOT NULL REFERENCES Schools (school_id) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (group_id));
 
 -- -----------------------------------------------------
 -- Table `public`.`Users`
 -- -----------------------------------------------------
-CREATE SEQUENCE student_from;
+CREATE SEQUENCE Users_seq;
 
-CREATE TABLE IF NOT EXISTS public.Users (
-  user_id INT CHECK (user_id > 0) NOT NULL DEFAULT NEXTVAL ('public.Users_seq'),
+CREATE TABLE Users (
+  user_id INT CHECK (user_id > 0) NOT NULL DEFAULT NEXTVAL ('Users_seq'),
   email VARCHAR(45) NOT NULL,
   password VARCHAR(45) NOT NULL,
   name VARCHAR(45) NOT NULL,
@@ -63,43 +63,43 @@ CREATE TABLE IF NOT EXISTS public.Users (
 -- -----------------------------------------------------
 -- Table `public`.`Students`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS public.Students (
-  user_id INT CHECK (user_id > 0) NULL REFERENCES public.Users (user_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  student_from TIMESTAMP(0) NOT NULL,
+CREATE TABLE Students (
+  user_id INT CHECK (user_id > 0) NULL REFERENCES Users (user_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  student_from TIMESTAMP NOT NULL,
   student_to VARCHAR(45) NULL,
-  group_id INT CHECK (group_id > 0) NOT NULL REFERENCES public.Groups (group_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  group_id INT CHECK (group_id > 0) NOT NULL REFERENCES Groups (group_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
   PRIMARY KEY (user_id));
 
 -- -----------------------------------------------------
 -- Table `public`.`Coordinators`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS public.Coordinators (
-  user_id INT CHECK (user_id > 0) NOT NULL REFERENCES public.Users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  coordinator_to TIMESTAMP(0) NULL,
-  coordinator_from TIMESTAMP(0) NOT NULL,
-  school_id INT CHECK (school_id > 0) NOT NULL REFERENCES public.Schools (school_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+CREATE TABLE Coordinators (
+  user_id INT CHECK (user_id > 0) NOT NULL REFERENCES Users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  coordinator_to TIMESTAMP NULL,
+  coordinator_from TIMESTAMP NOT NULL,
+  school_id INT CHECK (school_id > 0) NOT NULL REFERENCES Schools (school_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
   PRIMARY KEY (user_id));
 
 -- -----------------------------------------------------
 -- Table `public`.`Mobilities`
 -- -----------------------------------------------------
-CREATE SEQUENCE mobility_description;
+CREATE SEQUENCE Mobilities_seq;
 
-CREATE TABLE IF NOT EXISTS public.Mobilities (
-  mobility_id INT CHECK (mobility_id > 0) NOT NULL DEFAULT NEXTVAL ('public.Mobilities_seq'),
-  host_school_id INT CHECK (host_school_id > 0) NOT NULL REFERENCES public.Schools (school_id) ON DELETE SET NULL ON UPDATE CASCADE,
-  start TIMESTAMP(0) NOT NULL,
-  end TIMESTAMP(0) NOT NULL,
+CREATE TABLE Mobilities (
+  mobility_id INT CHECK (mobility_id > 0) NOT NULL DEFAULT NEXTVAL ('Mobilities_seq'),
+  host_school_id INT CHECK (host_school_id > 0) NOT NULL REFERENCES Schools (school_id) ON DELETE SET NULL ON UPDATE CASCADE,
+  start TIMESTAMP NOT NULL,
+  end TIMESTAMP NOT NULL,
   mobility_description TEXT NOT NULL,
   PRIMARY KEY (mobility_id));
 
 -- -----------------------------------------------------
 -- Table `public`.`Projects`
 -- -----------------------------------------------------
-CREATE SEQUENCE project_name;
+CREATE SEQUENCE Projects_seq;
 
-CREATE TABLE IF NOT EXISTS public.Projects (
-  project_id INT CHECK (project_id > 0) NULL DEFAULT NEXTVAL ('public.Projects_seq'),
+CREATE TABLE Projects (
+  project_id INT CHECK (project_id > 0) NULL DEFAULT NEXTVAL ('Projects_seq'),
   project_name VARCHAR(45) NOT NULL,
   project_desc TEXT NULL,
   PRIMARY KEY (project_id));
@@ -107,22 +107,22 @@ CREATE TABLE IF NOT EXISTS public.Projects (
 -- -----------------------------------------------------
 -- Table `public`.`Outputs`
 -- -----------------------------------------------------
-CREATE SEQUENCE output_name;
+CREATE SEQUENCE Outputs_seq;
 
-CREATE TABLE IF NOT EXISTS public.Outputs (
-  output_id INT CHECK (output_id > 0) NULL DEFAULT NEXTVAL ('public.Outputs_seq'),
+CREATE TABLE Outputs (
+  output_id INT CHECK (output_id > 0) NULL DEFAULT NEXTVAL ('Outputs_seq'),
   output_name VARCHAR(45) NOT NULL,
   output_desc TEXT NULL,
-  project_id INT CHECK (project_id > 0) NOT NULL REFERENCES public.Projects (project_id) ON DELETE SET NULL ON UPDATE CASCADE,
+  project_id INT CHECK (project_id > 0) NOT NULL REFERENCES Projects (project_id) ON DELETE SET NULL ON UPDATE CASCADE,
   PRIMARY KEY (output_id));
 
 -- -----------------------------------------------------
 -- Table `public`.`Articles`
 -- -----------------------------------------------------
-CREATE SEQUENCE article_id;
+CREATE SEQUENCE Articles_seq;
 
-CREATE TABLE IF NOT EXISTS public.Articles (
-  article_id INT CHECK (article_id > 0) NOT NULL DEFAULT NEXTVAL ('public.Articles_seq'),
+CREATE TABLE Articles (
+  article_id INT CHECK (article_id > 0) NOT NULL DEFAULT NEXTVAL ('Articles_seq'),
   content TEXT NOT NULL,
   name VARCHAR(45) NOT NULL,
   rating SMALLINT NOT NULL,
@@ -131,23 +131,23 @@ CREATE TABLE IF NOT EXISTS public.Articles (
 -- -----------------------------------------------------
 -- Table `public`.`Externist`
 -- -----------------------------------------------------
-CREATE SEQUENCE public.Output_commen;
+CREATE SEQUENCE Externist_seq;
 
-CREATE TABLE IF NOT EXISTS public.Externist (
-  user_id INT CHECK (user_id > 0) NOT NULL DEFAULT NEXTVAL ('public.Externist_seq') REFERENCES public.Users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  schoold_id INT CHECK (schoold_id > 0) NOT NULL REFERENCES public.Schools (school_id) ON DELETE CASCADE ON UPDATE CASCADE,
+CREATE TABLE Externist (
+  user_id INT CHECK (user_id > 0) NOT NULL DEFAULT NEXTVAL ('Externist_seq') REFERENCES Users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  schoold_id INT CHECK (schoold_id > 0) NOT NULL REFERENCES Schools (school_id) ON DELETE CASCADE ON UPDATE CASCADE,
   active SMALLINT NOT NULL,
   PRIMARY KEY (user_id),);
 
 -- -----------------------------------------------------
 -- Table `public`.`Output_comments`
 -- -----------------------------------------------------
-CREATE SEQUENCE public.Attending_schools;
+CREATE SEQUENCE Output_comments_seq;
 
-CREATE TABLE IF NOT EXISTS public.Output_comments (
-  comment_id INT CHECK (comment_id > 0) NOT NULL DEFAULT NEXTVAL ('public.Output_comments_seq') REFERENCES public.Output_comments (comment_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  user_id INT CHECK (user_id > 0) NOT NULL REFERENCES public.Users (user_id) ON DELETE SET NULL ON UPDATE CASCADE,
-  output_id INT CHECK (output_id > 0) NOT NULL REFERENCES public.Outputs (output_id) ON DELETE CASCADE ON UPDATE CASCADE,
+CREATE TABLE Output_comments (
+  comment_id INT CHECK (comment_id > 0) NOT NULL DEFAULT NEXTVAL ('Output_comments_seq') REFERENCES Output_comments (comment_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  user_id INT CHECK (user_id > 0) NOT NULL REFERENCES Users (user_id) ON DELETE SET NULL ON UPDATE CASCADE,
+  output_id INT CHECK (output_id > 0) NOT NULL REFERENCES Outputs (output_id) ON DELETE CASCADE ON UPDATE CASCADE,
   content TEXT NOT NULL,
   parrent_comment INT CHECK (parrent_comment > 0) NOT NULL,
   rating SMALLINT NOT NULL,
@@ -156,39 +156,39 @@ CREATE TABLE IF NOT EXISTS public.Output_comments (
 -- -----------------------------------------------------
 -- Table `public`.`Attending_schools`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS public.Attending_schools (
-  project_id INT CHECK (project_id > 0) NOT NULL REFERENCES public.Projects (project_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  school_id INT CHECK (school_id > 0) NOT NULL REFERENCES public.Schools (school_id) ON DELETE CASCADE ON UPDATE CASCADE,
+CREATE TABLE Attending_schools (
+  project_id INT CHECK (project_id > 0) NOT NULL REFERENCES Projects (project_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  school_id INT CHECK (school_id > 0) NOT NULL REFERENCES Schools (school_id) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (project_id, school_id));
 
 -- -----------------------------------------------------
 -- Table `public`.`Article_authors`
 -- -----------------------------------------------------
-CREATE SEQUENCE article_authors_id;
+CREATE SEQUENCE Article_authors_seq;
 
-CREATE TABLE IF NOT EXISTS public.Article_authors (
-  user_id INT CHECK (user_id > 0) NULL REFERENCES public.Students (user_id) ON DELETE SET NULL ON UPDATE CASCADE,
-  article_id INT CHECK (article_id > 0) NOT NULL REFERENCES public.Articles (article_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  article_authors_id INT CHECK (article_authors_id > 0) NOT NULL DEFAULT NEXTVAL ('public.Article_authors_seq'),
+CREATE TABLE Article_authors (
+  user_id INT CHECK (user_id > 0) NULL REFERENCES Students (user_id) ON DELETE SET NULL ON UPDATE CASCADE,
+  article_id INT CHECK (article_id > 0) NOT NULL REFERENCES Articles (article_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  article_authors_id INT CHECK (article_authors_id > 0) NOT NULL DEFAULT NEXTVAL ('Article_authors_seq'),
   PRIMARY KEY (article_authors_id));
 
 -- -----------------------------------------------------
 -- Table `public`.`Attending_groups`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS public.Attending_groups (
-  mobility_id INT CHECK (mobility_id > 0) NOT NULL REFERENCES public.Mobilities (mobility_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  group_id INT CHECK (group_id > 0) NOT NULL REFERENCES public.Groups (group_id) ON DELETE CASCADE ON UPDATE CASCADE,
+CREATE TABLE Attending_groups (
+  mobility_id INT CHECK (mobility_id > 0) NOT NULL REFERENCES Mobilities (mobility_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  group_id INT CHECK (group_id > 0) NOT NULL REFERENCES Groups (group_id) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (group_id, mobility_id));
 
 -- -----------------------------------------------------
 -- Table `public`.`Article_comments`
 -- -----------------------------------------------------
-CREATE SEQUENCE fk_Article_comments_1;
+CREATE SEQUENCE Article_comments_seq;
 
-CREATE TABLE IF NOT EXISTS public.Article_comments (
-  comment_id INT CHECK (comment_id > 0) NOT NULL DEFAULT NEXTVAL ('public.Article_comments_seq') REFERENCES public.Article_comments (comment_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  user_id INT CHECK (user_id > 0) NULL REFERENCES public.Users (user_id) ON DELETE SET NULL ON UPDATE CASCADE,
-  article_id INT CHECK (article_id > 0) NOT NULL REFERENCES public.Articles (article_id) ON DELETE CASCADE ON UPDATE CASCADE,
+CREATE TABLE Article_comments (
+  comment_id INT CHECK (comment_id > 0) NOT NULL DEFAULT NEXTVAL ('Article_comments_seq') REFERENCES Article_comments (comment_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  user_id INT CHECK (user_id > 0) NULL REFERENCES Users (user_id) ON DELETE SET NULL ON UPDATE CASCADE,
+  article_id INT CHECK (article_id > 0) NOT NULL REFERENCES Articles (article_id) ON DELETE CASCADE ON UPDATE CASCADE,
   content TEXT NOT NULL,
   parrent_comment INT CHECK (parrent_comment > 0) NULL,
   rating SMALLINT NOT NULL,
