@@ -164,12 +164,12 @@ CREATE TABLE Attending_schools (
 -- -----------------------------------------------------
 -- Table `public`.`Article_authors`
 -- -----------------------------------------------------
-CREATE SEQUENCE Article_authors_seq;
+CREATE SEQUENCE article_authors_seq;
 
 CREATE TABLE Article_authors (
   user_id INT CHECK (user_id > 0) NULL REFERENCES Students (user_id) ON DELETE SET NULL ON UPDATE CASCADE,
   article_id INT CHECK (article_id > 0) NOT NULL REFERENCES Articles (article_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  article_authors_id INT CHECK (article_authors_id > 0) NOT NULL DEFAULT NEXTVAL ('Article_authors_seq'),
+  article_authors_id INT CHECK (article_authors_id > 0) NOT NULL DEFAULT NEXTVAL ('article_authors_seq'),
   PRIMARY KEY (article_authors_id));
 
 -- -----------------------------------------------------
