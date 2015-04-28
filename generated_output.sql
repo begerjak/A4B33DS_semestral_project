@@ -18,20 +18,20 @@
 -- -----------------------------------------------------
 -- Table `public`.`Countries`
 -- -----------------------------------------------------
-CREATE SEQUENCE Countries_seq;
+CREATE SEQUENCE countries_seq;
 
 CREATE TABLE Countries (
-  country_id INT CHECK (country_id > 0) NOT NULL DEFAULT NEXTVAL ('Countries_seq'),
+  country_id INT CHECK (country_id > 0) NOT NULL DEFAULT NEXTVAL ('countries_seq'),
   country_name VARCHAR(45) NOT NULL,
   PRIMARY KEY (country_id));
 
 -- -----------------------------------------------------
 -- Table `public`.`Schools`
 -- -----------------------------------------------------
-CREATE SEQUENCE Schools_seq;
+CREATE SEQUENCE schools_seq;
 
 CREATE TABLE Schools (
-  school_id INT CHECK (school_id > 0) NOT NULL DEFAULT NEXTVAL ('Schools_seq'),
+  school_id INT CHECK (school_id > 0) NOT NULL DEFAULT NEXTVAL ('schools_seq'),
   country_id INT CHECK (country_id > 0) NOT NULL REFERENCES Countries (country_id) ON DELETE CASCADE ON UPDATE CASCADE,
   school_name VARCHAR(45) NOT NULL,
   school_desc TEXT NULL,
@@ -41,20 +41,20 @@ CREATE TABLE Schools (
 -- -----------------------------------------------------
 -- Table `public`.`Groups`
 -- -----------------------------------------------------
-CREATE SEQUENCE Groups_seq;
+CREATE SEQUENCE groups_seq;
 
 CREATE TABLE Groups (
-  group_id INT CHECK (group_id > 0) NOT NULL DEFAULT NEXTVAL ('Groups_seq'),
+  group_id INT CHECK (group_id > 0) NOT NULL DEFAULT NEXTVAL ('groups_seq'),
   school_id INT CHECK (school_id > 0) NOT NULL REFERENCES Schools (school_id) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (group_id));
 
 -- -----------------------------------------------------
 -- Table `public`.`Users`
 -- -----------------------------------------------------
-CREATE SEQUENCE Users_seq;
+CREATE SEQUENCE users_seq;
 
 CREATE TABLE Users (
-  user_id INT CHECK (user_id > 0) NOT NULL DEFAULT NEXTVAL ('Users_seq'),
+  user_id INT CHECK (user_id > 0) NOT NULL DEFAULT NEXTVAL ('users_seq'),
   email VARCHAR(45) NOT NULL,
   password VARCHAR(45) NOT NULL,
   name VARCHAR(45) NOT NULL,
@@ -83,10 +83,10 @@ CREATE TABLE Coordinators (
 -- -----------------------------------------------------
 -- Table `public`.`Mobilities`
 -- -----------------------------------------------------
-CREATE SEQUENCE Mobilities_seq;
+CREATE SEQUENCE mobilities_seq;
 
 CREATE TABLE Mobilities (
-  mobility_id INT CHECK (mobility_id > 0) NOT NULL DEFAULT NEXTVAL ('Mobilities_seq'),
+  mobility_id INT CHECK (mobility_id > 0) NOT NULL DEFAULT NEXTVAL ('mobilities_seq'),
   host_school_id INT CHECK (host_school_id > 0) NOT NULL REFERENCES Schools (school_id) ON DELETE SET NULL ON UPDATE CASCADE,
   start TIMESTAMP NOT NULL,
   end TIMESTAMP NOT NULL,
@@ -96,10 +96,10 @@ CREATE TABLE Mobilities (
 -- -----------------------------------------------------
 -- Table `public`.`Projects`
 -- -----------------------------------------------------
-CREATE SEQUENCE Projects_seq;
+CREATE SEQUENCE projects_seq;
 
 CREATE TABLE Projects (
-  project_id INT CHECK (project_id > 0) NULL DEFAULT NEXTVAL ('Projects_seq'),
+  project_id INT CHECK (project_id > 0) NULL DEFAULT NEXTVAL ('projects_seq'),
   project_name VARCHAR(45) NOT NULL,
   project_desc TEXT NULL,
   PRIMARY KEY (project_id));
@@ -107,10 +107,10 @@ CREATE TABLE Projects (
 -- -----------------------------------------------------
 -- Table `public`.`Outputs`
 -- -----------------------------------------------------
-CREATE SEQUENCE Outputs_seq;
+CREATE SEQUENCE outputs_seq;
 
 CREATE TABLE Outputs (
-  output_id INT CHECK (output_id > 0) NULL DEFAULT NEXTVAL ('Outputs_seq'),
+  output_id INT CHECK (output_id > 0) NULL DEFAULT NEXTVAL ('outputs_seq'),
   output_name VARCHAR(45) NOT NULL,
   output_desc TEXT NULL,
   project_id INT CHECK (project_id > 0) NOT NULL REFERENCES Projects (project_id) ON DELETE SET NULL ON UPDATE CASCADE,
@@ -119,10 +119,10 @@ CREATE TABLE Outputs (
 -- -----------------------------------------------------
 -- Table `public`.`Articles`
 -- -----------------------------------------------------
-CREATE SEQUENCE Articles_seq;
+CREATE SEQUENCE articles_seq;
 
 CREATE TABLE Articles (
-  article_id INT CHECK (article_id > 0) NOT NULL DEFAULT NEXTVAL ('Articles_seq'),
+  article_id INT CHECK (article_id > 0) NOT NULL DEFAULT NEXTVAL ('articles_seq'),
   content TEXT NOT NULL,
   name VARCHAR(45) NOT NULL,
   rating SMALLINT NOT NULL,
@@ -131,10 +131,10 @@ CREATE TABLE Articles (
 -- -----------------------------------------------------
 -- Table `public`.`Externist`
 -- -----------------------------------------------------
-CREATE SEQUENCE Externist_seq;
+CREATE SEQUENCE externist_seq;
 
 CREATE TABLE Externist (
-  user_id INT CHECK (user_id > 0) NOT NULL DEFAULT NEXTVAL ('Externist_seq') REFERENCES Users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  user_id INT CHECK (user_id > 0) NOT NULL DEFAULT NEXTVAL ('externist_seq') REFERENCES Users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   schoold_id INT CHECK (schoold_id > 0) NOT NULL REFERENCES Schools (school_id) ON DELETE CASCADE ON UPDATE CASCADE,
   active SMALLINT NOT NULL,
   PRIMARY KEY (user_id),);
@@ -142,10 +142,10 @@ CREATE TABLE Externist (
 -- -----------------------------------------------------
 -- Table `public`.`Output_comments`
 -- -----------------------------------------------------
-CREATE SEQUENCE Output_comments_seq;
+CREATE SEQUENCE output_comments_seq;
 
 CREATE TABLE Output_comments (
-  comment_id INT CHECK (comment_id > 0) NOT NULL DEFAULT NEXTVAL ('Output_comments_seq') REFERENCES Output_comments (comment_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  comment_id INT CHECK (comment_id > 0) NOT NULL DEFAULT NEXTVAL ('output_comments_seq') REFERENCES Output_comments (comment_id) ON DELETE CASCADE ON UPDATE CASCADE,
   user_id INT CHECK (user_id > 0) NOT NULL REFERENCES Users (user_id) ON DELETE SET NULL ON UPDATE CASCADE,
   output_id INT CHECK (output_id > 0) NOT NULL REFERENCES Outputs (output_id) ON DELETE CASCADE ON UPDATE CASCADE,
   content TEXT NOT NULL,
@@ -183,10 +183,10 @@ CREATE TABLE Attending_groups (
 -- -----------------------------------------------------
 -- Table `public`.`Article_comments`
 -- -----------------------------------------------------
-CREATE SEQUENCE Article_comments_seq;
+CREATE SEQUENCE article_comments_seq;
 
 CREATE TABLE Article_comments (
-  comment_id INT CHECK (comment_id > 0) NOT NULL DEFAULT NEXTVAL ('Article_comments_seq') REFERENCES Article_comments (comment_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  comment_id INT CHECK (comment_id > 0) NOT NULL DEFAULT NEXTVAL ('article_comments_seq') REFERENCES Article_comments (comment_id) ON DELETE CASCADE ON UPDATE CASCADE,
   user_id INT CHECK (user_id > 0) NULL REFERENCES Users (user_id) ON DELETE SET NULL ON UPDATE CASCADE,
   article_id INT CHECK (article_id > 0) NOT NULL REFERENCES Articles (article_id) ON DELETE CASCADE ON UPDATE CASCADE,
   content TEXT NOT NULL,
