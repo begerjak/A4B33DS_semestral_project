@@ -137,7 +137,7 @@ CREATE TABLE Externist (
   user_id INT CHECK (user_id > 0) NOT NULL DEFAULT NEXTVAL ('externist_seq') REFERENCES Users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   schoold_id INT CHECK (schoold_id > 0) NOT NULL REFERENCES Schools (school_id) ON DELETE CASCADE ON UPDATE CASCADE,
   active SMALLINT NOT NULL,
-  PRIMARY KEY (user_id),);
+  PRIMARY KEY (user_id));
 
 -- -----------------------------------------------------
 -- Table `public`.`Output_comments`
