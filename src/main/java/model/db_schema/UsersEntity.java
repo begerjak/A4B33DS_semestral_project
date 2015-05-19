@@ -96,7 +96,7 @@ public class UsersEntity {
         return String.format("user: id = %d, name = %s, email = %s", userId, name, email);
     }
 
-    //    @OneToOne//(mappedBy = "usersByUserId")
+//        @OneToOne//(mappedBy = "usersByUserId")
 //    public StudentsEntity getStudentsByUserId() {
 //        return studentsByUserId;
 //    }

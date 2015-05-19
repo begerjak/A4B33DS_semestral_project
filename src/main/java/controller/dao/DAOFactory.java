@@ -15,6 +15,14 @@ public abstract class DAOFactory {
 
     public abstract UserDAO getUserDAO();
 
+    public abstract StudentDAO getStudentDAO();
+
+    public abstract SchoolDAO getSchoolDAO();
+
+    public abstract GroupDAO getGroupDAO();
+
+    public abstract CountryDAO getCountryDAO();
+
     public static DAOFactory getDAOFactory(int whichFactory) {
         switch (whichFactory) {
             case DAOFactory.HIBERNATE:

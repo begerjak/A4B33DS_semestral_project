@@ -99,4 +99,9 @@ public class SchoolsEntity {
     public void setCountriesByCountryId(CountriesEntity countriesByCountryId) {
         this.countriesByCountryId = countriesByCountryId;
     }
+
+    @Override
+    public String toString() {
+        return String.format("School entity: id = %d, name = %s, desc = %s", schoolId, schoolName, schoolDesc);
+    }
 }

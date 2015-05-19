@@ -17,6 +17,16 @@ public class StudentsEntity {
     private GroupsEntity groupsByGroupId;
     private UsersEntity userByUsersEntityId;
 
+    public StudentsEntity() {
+    }
+
+    public StudentsEntity(int userId, Timestamp studentFrom, Timestamp studentTo, int groupId) {
+        this.userId = userId;
+        this.studentFrom = studentFrom;
+        this.studentTo = studentTo;
+        this.groupId = groupId;
+    }
+
     @Id
     @Column(name = "user_id")
     public int getUserId() {
@@ -99,5 +109,10 @@ public class StudentsEntity {
 
     public void setUserByUsersEntityId(UsersEntity userByUsersEntityId) {
         this.userByUsersEntityId = userByUsersEntityId;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("User id = %s, timeFrom = %s, timeTo = %s, groupId = %d", userId, studentFrom.toString(), studentTo.toString(), groupId);
     }
 }

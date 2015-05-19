@@ -1,8 +1,7 @@
 package controller.dao.impl;
 
 import controller.HibernateUtil;
-import controller.dao.DAOFactory;
-import controller.dao.UserDAO;
+import controller.dao.*;
 import org.hibernate.Session;
 
 import java.util.logging.Logger;
@@ -22,5 +21,25 @@ public class HibernateDAOFactory extends DAOFactory{
     @Override
     public UserDAO getUserDAO() {
         return new UserDAOImpl();
+    }
+
+    @Override
+    public StudentDAO getStudentDAO() {
+        return new StudentDAOImpl();
+    }
+
+    @Override
+    public SchoolDAO getSchoolDAO() {
+        return new SchoolDAOImpl();
+    }
+
+    @Override
+    public GroupDAO getGroupDAO() {
+        return new GroupDAOImpl();
+    }
+
+    @Override
+    public CountryDAO getCountryDAO() {
+        return new CountryDAOImpl();
     }
 }

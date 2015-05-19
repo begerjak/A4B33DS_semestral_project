@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Table(name = "groups", schema = "semestralka", catalog = "student_db15_25")
 public class GroupsEntity {
     private int groupId;
+    private int number;
     private SchoolsEntity schoolsBySchoolId;
 
     @Id
@@ -22,6 +23,15 @@ public class GroupsEntity {
         this.groupId = groupId;
     }
 
+    @Column(name = "number")
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -30,14 +40,18 @@ public class GroupsEntity {
         GroupsEntity that = (GroupsEntity) o;
 
         if (groupId != that.groupId) return false;
+        if (number != that.number) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return groupId;
+        int result = groupId;
+        result = 31 * result + number;
+        return result;
     }
+
 
     @ManyToOne
     @JoinColumn(name = "school_id", referencedColumnName = "school_id", nullable = false)
