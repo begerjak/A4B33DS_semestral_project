@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import javax.persistence.PersistenceException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -22,7 +23,6 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
         LOGGER = Logger.getLogger(UserDAOImpl.class.getName());
     }
 
-    @Override
     public int insertUser(User user) {
         if (user == null)
             throw new IllegalArgumentException("Input parameter cannot be null");
@@ -39,7 +39,6 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
         }
     }
 
-    @Override
     public boolean deleteUser(User user) {
         if (user == null)
             throw new IllegalArgumentException("Input parameter cannot be null");
@@ -55,7 +54,6 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
         }
     }
 
-    @Override
     public User getUser(int id) {
         try {
             LOGGER.info(String.format("Getting User with Id %d", id));
@@ -71,7 +69,6 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 
 
 
-    @Override
     public boolean updateUser(User user) {
         if (user == null)
             throw new IllegalArgumentException("Input parameter cannot be null");
@@ -87,7 +84,6 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
         }
     }
 
-    @Override
     public User findUser(String email) {
         try {
             LOGGER.info(String.format("Finding User with email '%s'", email));
@@ -100,6 +96,19 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
             if (!users.isEmpty())
                 foundUsers = (User) users.get(0);
             return foundUsers;
+        } catch (Exception ex) {
+            throw new PersistenceException("findUser failed", ex);
+        }
+    }
+
+    public ArrayList<User> listAllUsers() {
+        try {
+            LOGGER.info(String.format("List all users"));
+            Session session = HibernateDAOFactory.createSession();
+
+            Criteria crit = session.createCriteria(User.class);
+            ArrayList<User> users = (ArrayList<User>)crit.list();
+            return users;
         } catch (Exception ex) {
             throw new PersistenceException("findUser failed", ex);
         }

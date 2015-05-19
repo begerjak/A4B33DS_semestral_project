@@ -2,6 +2,8 @@ package controller.dao;
 
 import model.db_schema.User;
 
+import java.util.ArrayList;
+
 /**
  * Copyright 2015 IEAP CTU
  * Author: Jakub Begera (jakub.begera@utef.cvut.cz)
@@ -16,4 +18,6 @@ public interface UserDAO {
     public boolean updateUser(User user);
 
     public User findUser(String email);
+
+    public ArrayList<User> listAllUsers();
 }

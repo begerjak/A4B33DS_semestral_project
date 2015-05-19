@@ -7,7 +7,7 @@ import javax.persistence.*;
  * Author: Jakub Begera (jakub.begera@utef.cvut.cz)
  */
 @Entity
-@Table(name = "schools", schema = "public", catalog = "student_db15_25")
+@Table(name = "schools", schema = "semestralka", catalog = "student_db15_25")
 public class SchoolsEntity {
     private int schoolId;
     private String schoolName;

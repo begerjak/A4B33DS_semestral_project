@@ -7,15 +7,29 @@ import javax.persistence.*;
  * Author: Jakub Begera (jakub.begera@utef.cvut.cz)
  */
 @Entity
-@Table(name = "users", schema = "public", catalog = "student_db15_25")
+@Table(name = "users", schema = "semestralka", catalog = "student_db15_25")
 public class User {
+
+
     private int userId;
     private String email;
     private String password;
     private String name;
 
+    public User() {
+    }
+
+    public User(String email, String password, String name) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+    }
+
+//    @Id
+//    @Column(name = "user_id")
     @Id
-    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id", unique = true, nullable = false)
     public int getUserId() {
         return userId;
     }
@@ -76,5 +90,10 @@ public class User {
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("User #%d - %s (%s)", userId, name, email);
     }
 }

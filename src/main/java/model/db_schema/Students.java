@@ -8,12 +8,22 @@ import java.sql.Timestamp;
  * Author: Jakub Begera (jakub.begera@utef.cvut.cz)
  */
 @Entity
-@Table(name = "students", schema = "public", catalog = "student_db15_25")
-public class StudentsEntity {
+@Table(name = "students", schema = "semestralka", catalog = "student_db15_25")
+public class Students {
     private int userId;
     private Timestamp studentFrom;
-    private String studentTo;
+    private Timestamp studentTo;
     private User usersByUserId;
+
+    public Students() {
+    }
+
+
+    public Students(Timestamp studentFrom, Timestamp studentTo, User usersByUserId) {
+        this.studentFrom = studentFrom;
+        this.studentTo = studentTo;
+        this.usersByUserId = usersByUserId;
+    }
 
     @Id
     @Column(name = "user_id")
@@ -37,11 +47,11 @@ public class StudentsEntity {
 
     @Basic
     @Column(name = "student_to")
-    public String getStudentTo() {
+    public Timestamp getStudentTo() {
         return studentTo;
     }
 
-    public void setStudentTo(String studentTo) {
+    public void setStudentTo(Timestamp studentTo) {
         this.studentTo = studentTo;
     }
 
@@ -50,7 +60,7 @@ public class StudentsEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        StudentsEntity that = (StudentsEntity) o;
+        Students that = (Students) o;
 
         if (userId != that.userId) return false;
         if (studentFrom != null ? !studentFrom.equals(that.studentFrom) : that.studentFrom != null) return false;
