@@ -9,21 +9,13 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "students", schema = "semestralka", catalog = "student_db15_25")
-public class Students {
+public class StudentsEntity {
     private int userId;
     private Timestamp studentFrom;
     private Timestamp studentTo;
-    private User usersByUserId;
-
-    public Students() {
-    }
-
-
-    public Students(Timestamp studentFrom, Timestamp studentTo, User usersByUserId) {
-        this.studentFrom = studentFrom;
-        this.studentTo = studentTo;
-        this.usersByUserId = usersByUserId;
-    }
+    private int groupId;
+    private GroupsEntity groupsByGroupId;
+    private UsersEntity userByUsersEntityId;
 
     @Id
     @Column(name = "user_id")
@@ -55,14 +47,25 @@ public class Students {
         this.studentTo = studentTo;
     }
 
+    @Basic
+    @Column(name = "group_id")
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Students that = (Students) o;
+        StudentsEntity that = (StudentsEntity) o;
 
         if (userId != that.userId) return false;
+        if (groupId != that.groupId) return false;
         if (studentFrom != null ? !studentFrom.equals(that.studentFrom) : that.studentFrom != null) return false;
         if (studentTo != null ? !studentTo.equals(that.studentTo) : that.studentTo != null) return false;
 
@@ -74,16 +77,27 @@ public class Students {
         int result = userId;
         result = 31 * result + (studentFrom != null ? studentFrom.hashCode() : 0);
         result = 31 * result + (studentTo != null ? studentTo.hashCode() : 0);
+        result = 31 * result + groupId;
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "group_id", referencedColumnName = "group_id", nullable = false, insertable = false, updatable = false)
+    public GroupsEntity getGroupsByGroupId() {
+        return groupsByGroupId;
+    }
+
+    public void setGroupsByGroupId(GroupsEntity groupsByGroupId) {
+        this.groupsByGroupId = groupsByGroupId;
     }
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
-    public User getUsersByUserId() {
-        return usersByUserId;
+    public UsersEntity getUserByUsersEntityId() {
+        return userByUsersEntityId;
     }
 
-    public void setUsersByUserId(User usersByUserId) {
-        this.usersByUserId = usersByUserId;
+    public void setUserByUsersEntityId(UsersEntity userByUsersEntityId) {
+        this.userByUsersEntityId = userByUsersEntityId;
     }
 }

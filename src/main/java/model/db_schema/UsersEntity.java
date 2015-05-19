@@ -8,18 +8,17 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "users", schema = "semestralka", catalog = "student_db15_25")
-public class User {
-
-
+public class UsersEntity {
     private int userId;
     private String email;
     private String password;
     private String name;
+//    private StudentsEntity studentsByUserId;
 
-    public User() {
+    public UsersEntity() {
     }
 
-    public User(String email, String password, String name) {
+    public UsersEntity(String email, String password, String name) {
         this.email = email;
         this.password = password;
         this.name = name;
@@ -73,7 +72,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        User that = (User) o;
+        UsersEntity that = (UsersEntity) o;
 
         if (userId != that.userId) return false;
         if (email != null ? !email.equals(that.email) : that.email != null) return false;
@@ -94,6 +93,15 @@ public class User {
 
     @Override
     public String toString() {
-        return String.format("User #%d - %s (%s)", userId, name, email);
+        return String.format("user: id = %d, name = %s, email = %s", userId, name, email);
     }
+
+    //    @OneToOne//(mappedBy = "usersByUserId")
+//    public StudentsEntity getStudentsByUserId() {
+//        return studentsByUserId;
+//    }
+//
+//    public void setStudentsByUserId(StudentsEntity studentsByUserId) {
+//        this.studentsByUserId = studentsByUserId;
+//    }
 }

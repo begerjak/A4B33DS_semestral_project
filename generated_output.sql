@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS Groups (
   PRIMARY KEY (group_id));
 
 -- -----------------------------------------------------
--- Table `public`.`Users`
+-- Table `public`.`UsersEntity`
 -- -----------------------------------------------------
 CREATE SEQUENCE IF NOT EXISTS Users_seq;
 

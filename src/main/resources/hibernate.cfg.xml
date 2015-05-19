@@ -13,11 +13,11 @@
         <property name="show_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">validate</property>
 
-        <mapping class="model.db_schema.User"/>
-        <mapping class="model.db_schema.Students"/>
         <mapping class="model.db_schema.CountriesEntity"/>
         <mapping class="model.db_schema.GroupsEntity"/>
         <mapping class="model.db_schema.SchoolsEntity"/>
+        <mapping class="model.db_schema.StudentsEntity"/>
+        <mapping class="model.db_schema.UsersEntity"/>
 
 
 

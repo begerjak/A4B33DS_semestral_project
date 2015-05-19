@@ -1,6 +1,7 @@
 package model.db_schema;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
  * Copyright 2015 IEAP CTU
@@ -11,6 +12,7 @@ import javax.persistence.*;
 public class CountriesEntity {
     private int countryId;
     private String countryName;
+    private Collection<SchoolsEntity> schoolsesByCountryId;
 
     @Id
     @Column(name = "country_id")
@@ -50,5 +52,14 @@ public class CountriesEntity {
         int result = countryId;
         result = 31 * result + (countryName != null ? countryName.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "countriesByCountryId")
+    public Collection<SchoolsEntity> getSchoolsesByCountryId() {
+        return schoolsesByCountryId;
+    }
+
+    public void setSchoolsesByCountryId(Collection<SchoolsEntity> schoolsesByCountryId) {
+        this.schoolsesByCountryId = schoolsesByCountryId;
     }
 }

@@ -2,7 +2,7 @@ package controller.dao.impl;
 
 import controller.dao.BaseDAO;
 import controller.dao.UserDAO;
-import model.db_schema.User;
+import model.db_schema.UsersEntity;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -23,30 +23,30 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
         LOGGER = Logger.getLogger(UserDAOImpl.class.getName());
     }
 
-    public int insertUser(User user) {
-        if (user == null)
+    public int insertUser(UsersEntity usersEntity) {
+        if (usersEntity == null)
             throw new IllegalArgumentException("Input parameter cannot be null");
 
         try {
-            LOGGER.info(String.format("Inserting new User '%s'", user.getName()));
+            LOGGER.info(String.format("Inserting new UsersEntity '%s'", usersEntity.getName()));
             Session session = HibernateDAOFactory.createSession();
             Transaction tx = session.beginTransaction();
-            session.save(user);
+            session.save(usersEntity);
             tx.commit();
-            return user.getUserId();
+            return usersEntity.getUserId();
         } catch (Exception ex) {
             throw new PersistenceException("insertPerson failed", ex);
         }
     }
 
-    public boolean deleteUser(User user) {
-        if (user == null)
+    public boolean deleteUser(UsersEntity usersEntity) {
+        if (usersEntity == null)
             throw new IllegalArgumentException("Input parameter cannot be null");
         try {
-            LOGGER.info(String.format("Deleting User with Id %d", user.getUserId()));
+            LOGGER.info(String.format("Deleting UsersEntity with Id %d", usersEntity.getUserId()));
             Session session = HibernateDAOFactory.createSession();
             Transaction tx = session.beginTransaction();
-            session.delete(user);
+            session.delete(usersEntity);
             tx.commit();
             return true;
         } catch (Exception ex) {
@@ -54,12 +54,12 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
         }
     }
 
-    public User getUser(int id) {
+    public UsersEntity getUser(int id) {
         try {
-            LOGGER.info(String.format("Getting User with Id %d", id));
+            LOGGER.info(String.format("Getting UsersEntity with Id %d", id));
             Session session = HibernateDAOFactory.createSession();
             Transaction tx = session.beginTransaction();
-            User person = (User) session.get(User.class, id);
+            UsersEntity person = (UsersEntity) session.get(UsersEntity.class, id);
             tx.commit();
             return person;
         } catch (Exception ex) {
@@ -69,14 +69,14 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 
 
 
-    public boolean updateUser(User user) {
-        if (user == null)
+    public boolean updateUser(UsersEntity usersEntity) {
+        if (usersEntity == null)
             throw new IllegalArgumentException("Input parameter cannot be null");
         try {
-            LOGGER.info(String.format("Updating User with Id %d", user.getUserId()));
+            LOGGER.info(String.format("Updating UsersEntity with Id %d", usersEntity.getUserId()));
             Session session = HibernateDAOFactory.createSession();
             Transaction tx = session.beginTransaction();
-            session.update(user);
+            session.update(usersEntity);
             tx.commit();
             return true;
         } catch (Exception ex) {
@@ -84,31 +84,31 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
         }
     }
 
-    public User findUser(String email) {
+    public UsersEntity findUser(String email) {
         try {
-            LOGGER.info(String.format("Finding User with email '%s'", email));
+            LOGGER.info(String.format("Finding UsersEntity with email '%s'", email));
             Session session = HibernateDAOFactory.createSession();
 
-            Criteria crit = session.createCriteria(User.class);
+            Criteria crit = session.createCriteria(UsersEntity.class);
             crit.add(Restrictions.eq("email", email));
             List users = crit.list();
-            User foundUsers = null;
+            UsersEntity foundUsers = null;
             if (!users.isEmpty())
-                foundUsers = (User) users.get(0);
+                foundUsers = (UsersEntity) users.get(0);
             return foundUsers;
         } catch (Exception ex) {
             throw new PersistenceException("findUser failed", ex);
         }
     }
 
-    public ArrayList<User> listAllUsers() {
+    public ArrayList<UsersEntity> listAllUsers() {
         try {
-            LOGGER.info(String.format("List all users"));
+            LOGGER.info(String.format("List all usersEntities"));
             Session session = HibernateDAOFactory.createSession();
 
-            Criteria crit = session.createCriteria(User.class);
-            ArrayList<User> users = (ArrayList<User>)crit.list();
-            return users;
+            Criteria crit = session.createCriteria(UsersEntity.class);
+            ArrayList<UsersEntity> usersEntities = (ArrayList<UsersEntity>)crit.list();
+            return usersEntities;
         } catch (Exception ex) {
             throw new PersistenceException("findUser failed", ex);
         }

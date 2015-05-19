@@ -1,6 +1,6 @@
 package controller.dao;
 
-import model.db_schema.User;
+import model.db_schema.UsersEntity;
 
 import java.util.ArrayList;
 
@@ -9,15 +9,15 @@ import java.util.ArrayList;
  * Author: Jakub Begera (jakub.begera@utef.cvut.cz)
  */
 public interface UserDAO {
-    public int insertUser(User user);
+    public int insertUser(UsersEntity usersEntity);
 
-    public boolean deleteUser(User user);
+    public boolean deleteUser(UsersEntity usersEntity);
 
-    public User getUser(int id);
+    public UsersEntity getUser(int id);
 
-    public boolean updateUser(User user);
+    public boolean updateUser(UsersEntity usersEntity);
 
-    public User findUser(String email);
+    public UsersEntity findUser(String email);
 
-    public ArrayList<User> listAllUsers();
+    public ArrayList<UsersEntity> listAllUsers();
 }
