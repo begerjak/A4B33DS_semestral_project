@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="PostgreSQL - student_db15_25@jdbc:postgresql://krizik.felk.cvut.cz" uuid="b2647071-7979-4fe0-8653-20291b7dfa22">
+    <database-info product="PostgreSQL" version="8.3.23" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.4 JDBC4 (build 1201)">
+      <identifier-quote-string>&quot;</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact"/>
+    <schema name="semestralka" catalog="student_db15_25"/>
+    <table name="articles" schema="semestralka" catalog="student_db15_25" type="TABLE">
+      <column name="article_id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnc2VtZXN0cmFsa2EuYXJ0aWNsZXNfc2VxJzo6cmVnY2xhc3Mp" autoIncrement="true"/>
+      <column name="content" sqlType="text" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="name" sqlType="varchar" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="rating" sqlType="int2" precision="5" scale="0" nullable="false" jdbcType="5"/>
+      <primary-key name="articles_pkey" columns="article_id"/>
+    </table>
+    <table name="articles_seq" schema="semestralka" catalog="student_db15_25" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="coordinators" schema="semestralka" catalog="student_db15_25" type="TABLE">
+      <column name="user_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="coordinator_to" sqlType="timestamp" precision="29" scale="6" nullable="true" jdbcType="93"/>
+      <column name="coordinator_from" sqlType="timestamp" precision="29" scale="6" nullable="false" jdbcType="93"/>
+      <column name="school_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="coordinators_pkey" columns="user_id"/>
+      <foreign-key name="coordinators_school_id_fkey" columns="school_id" ref-table="schools" ref-schema="semestralka" ref-catalog="" ref-columns="school_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="coordinators_user_id_fkey" columns="user_id" ref-table="users" ref-schema="semestralka" ref-catalog="" ref-columns="user_id" update-rule="0" delete-rule="0" deferrability="2"/>
+    </table>
+    <table name="countries" schema="semestralka" catalog="student_db15_25" type="TABLE">
+      <column name="country_id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnc2VtZXN0cmFsa2EuY291bnRyaWVzX3NlcSc6OnJlZ2NsYXNzKQ==" autoIncrement="true"/>
+      <column name="country_name" sqlType="varchar" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="countries_pkey" columns="country_id"/>
+      <exported-key name="schools_country_id_fkey" table="schools" schema="semestralka" catalog="student_db15_25" columns="country_id"/>
+    </table>
+    <table name="countries_seq" schema="semestralka" catalog="student_db15_25" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="externist" schema="semestralka" catalog="student_db15_25" type="TABLE">
+      <column name="user_id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnc2VtZXN0cmFsa2EuZXh0ZXJuaXN0X3NlcSc6OnJlZ2NsYXNzKQ==" autoIncrement="true"/>
+      <column name="schoold_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="active" sqlType="int2" precision="5" scale="0" nullable="false" jdbcType="5"/>
+      <primary-key name="externist_pkey" columns="user_id"/>
+      <foreign-key name="externist_schoold_id_fkey" columns="schoold_id" ref-table="schools" ref-schema="semestralka" ref-catalog="" ref-columns="school_id" update-rule="0" delete-rule="0" deferrability="2"/>
+      <foreign-key name="externist_user_id_fkey" columns="user_id" ref-table="users" ref-schema="semestralka" ref-catalog="" ref-columns="user_id" update-rule="0" delete-rule="0" deferrability="2"/>
+    </table>
+    <table name="externist_seq" schema="semestralka" catalog="student_db15_25" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="groups" schema="semestralka" catalog="student_db15_25" type="TABLE">
+      <column name="group_id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnc2VtZXN0cmFsa2EuZ3JvdXBzX3NlcSc6OnJlZ2NsYXNzKQ==" autoIncrement="true"/>
+      <column name="school_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="groups_pkey" columns="group_id"/>
+      <foreign-key name="groups_school_id_fkey" columns="school_id" ref-table="schools" ref-schema="semestralka" ref-catalog="" ref-columns="school_id" update-rule="0" delete-rule="0" deferrability="2"/>
+      <exported-key name="students_group_id_fkey" table="students" schema="semestralka" catalog="student_db15_25" columns="group_id"/>
+    </table>
+    <table name="groups_seq" schema="semestralka" catalog="student_db15_25" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="mobilities" schema="semestralka" catalog="student_db15_25" type="TABLE">
+      <column name="mobility_id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnc2VtZXN0cmFsa2EubW9iaWxpdGllc19zZXEnOjpyZWdjbGFzcyk=" autoIncrement="true"/>
+      <column name="host_school_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="mob_start" sqlType="timestamp" precision="29" scale="6" nullable="false" jdbcType="93"/>
+      <column name="mob_end" sqlType="timestamp" precision="29" scale="6" nullable="false" jdbcType="93"/>
+      <column name="mobility_description" sqlType="text" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="mobilities_pkey" columns="mobility_id"/>
+      <foreign-key name="mobilities_host_school_id_fkey" columns="host_school_id" ref-table="schools" ref-schema="semestralka" ref-catalog="" ref-columns="school_id" update-rule="0" delete-rule="2" deferrability="2"/>
+    </table>
+    <table name="mobilities_seq" schema="semestralka" catalog="student_db15_25" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="outputs" schema="semestralka" catalog="student_db15_25" type="TABLE">
+      <column name="output_id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnc2VtZXN0cmFsa2Eub3V0cHV0c19zZXEnOjpyZWdjbGFzcyk=" autoIncrement="true"/>
+      <column name="output_name" sqlType="varchar" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="output_desc" sqlType="text" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
+      <column name="project_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="outputs_pkey" columns="output_id"/>
+      <foreign-key name="outputs_project_id_fkey" columns="project_id" ref-table="projects" ref-schema="semestralka" ref-catalog="" ref-columns="project_id" update-rule="0" delete-rule="2" deferrability="2"/>
+    </table>
+    <table name="outputs_seq" schema="semestralka" catalog="student_db15_25" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="projects" schema="semestralka" catalog="student_db15_25" type="TABLE">
+      <column name="project_id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnc2VtZXN0cmFsa2EucHJvamVjdHNfc2VxJzo6cmVnY2xhc3Mp" autoIncrement="true"/>
+      <column name="project_name" sqlType="varchar" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="project_desc" sqlType="text" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="projects_pkey" columns="project_id"/>
+      <exported-key name="outputs_project_id_fkey" table="outputs" schema="semestralka" catalog="student_db15_25" columns="project_id"/>
+    </table>
+    <table name="projects_seq" schema="semestralka" catalog="student_db15_25" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="schools" schema="semestralka" catalog="student_db15_25" type="TABLE">
+      <column name="school_id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnc2VtZXN0cmFsa2Euc2Nob29sc19zZXEnOjpyZWdjbGFzcyk=" autoIncrement="true"/>
+      <column name="country_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="school_name" sqlType="varchar" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="school_desc" sqlType="text" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="schools_pkey" columns="school_id"/>
+      <foreign-key name="schools_country_id_fkey" columns="country_id" ref-table="countries" ref-schema="semestralka" ref-catalog="" ref-columns="country_id" update-rule="0" delete-rule="0" deferrability="2"/>
+      <exported-key name="coordinators_school_id_fkey" table="coordinators" schema="semestralka" catalog="student_db15_25" columns="school_id"/>
+      <exported-key name="externist_schoold_id_fkey" table="externist" schema="semestralka" catalog="student_db15_25" columns="schoold_id"/>
+      <exported-key name="groups_school_id_fkey" table="groups" schema="semestralka" catalog="student_db15_25" columns="school_id"/>
+      <exported-key name="mobilities_host_school_id_fkey" table="mobilities" schema="semestralka" catalog="student_db15_25" columns="host_school_id"/>
+    </table>
+    <table name="schools_seq" schema="semestralka" catalog="student_db15_25" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="students" schema="semestralka" catalog="student_db15_25" type="TABLE">
+      <column name="user_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="student_from" sqlType="timestamp" precision="29" scale="6" nullable="false" jdbcType="93"/>
+      <column name="student_to" sqlType="timestamp" precision="29" scale="6" nullable="true" jdbcType="93"/>
+      <column name="group_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="students_pkey" columns="user_id"/>
+      <foreign-key name="students_group_id_fkey" columns="group_id" ref-table="groups" ref-schema="semestralka" ref-catalog="" ref-columns="group_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="students_user_id_fkey" columns="user_id" ref-table="users" ref-schema="semestralka" ref-catalog="" ref-columns="user_id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="users" schema="semestralka" catalog="student_db15_25" type="TABLE">
+      <column name="user_id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnc2VtZXN0cmFsa2EudXNlcnNfc2VxJzo6cmVnY2xhc3Mp" autoIncrement="true"/>
+      <column name="email" sqlType="varchar" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="password" sqlType="varchar" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="name" sqlType="varchar" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="users_pkey" columns="user_id"/>
+      <exported-key name="coordinators_user_id_fkey" table="coordinators" schema="semestralka" catalog="student_db15_25" columns="user_id"/>
+      <exported-key name="externist_user_id_fkey" table="externist" schema="semestralka" catalog="student_db15_25" columns="user_id"/>
+      <exported-key name="students_user_id_fkey" table="students" schema="semestralka" catalog="student_db15_25" columns="user_id"/>
+      <index name="users_email_key" unique="true" columns="email"/>
+    </table>
+    <table name="users_seq" schema="semestralka" catalog="student_db15_25" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+    </table>
+  </data-source>
+</component>
