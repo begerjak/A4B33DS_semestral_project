@@ -13,7 +13,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 import view.VIewController;
+import view.view_model.GroupView;
 import view.view_model.SchoolView;
+import view.view_model.StudentView;
 
 import java.io.IOException;
 
@@ -25,6 +27,8 @@ public class MainView extends Application {
 
 
     ObservableList<SchoolView> schoolsViewsList = FXCollections.observableArrayList();
+    ObservableList<GroupView> groupsViewsList = FXCollections.observableArrayList();
+    ObservableList<StudentView> studentsViewsList = FXCollections.observableArrayList();
 
     public MainView() {
     }
@@ -61,6 +65,8 @@ public class MainView extends Application {
             viewController = loader.getController();
             viewController.setMainApp(this);
             viewController.getTbvSchools().setItems(schoolsViewsList);
+            viewController.getTbvGroup().setItems(groupsViewsList);
+            viewController.getTbvStudent().setItems(studentsViewsList);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -86,5 +92,13 @@ public class MainView extends Application {
 
     public ObservableList<SchoolView> getSchoolsViewsList() {
         return schoolsViewsList;
+    }
+
+    public ObservableList<GroupView> getGroupsViewsList() {
+        return groupsViewsList;
+    }
+
+    public ObservableList<StudentView> getStudentsViewsList() {
+        return studentsViewsList;
     }
 }
