@@ -12,7 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
-import view.VIewController;
+import view.ViewController;
 import view.view_model.GroupView;
 import view.view_model.SchoolView;
 import view.view_model.StudentView;
@@ -21,16 +21,20 @@ import java.io.IOException;
 
 public class MainView extends Application {
 
-    private Stage primaryStage;
-    private ScrollPane rootLayout;
-    private VIewController viewController;
-
-
     ObservableList<SchoolView> schoolsViewsList = FXCollections.observableArrayList();
     ObservableList<GroupView> groupsViewsList = FXCollections.observableArrayList();
     ObservableList<StudentView> studentsViewsList = FXCollections.observableArrayList();
+    private Stage primaryStage;
+    private ScrollPane rootLayout;
+    private ViewController viewController;
 
     public MainView() {
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+
+
     }
 
     @Override
@@ -51,7 +55,7 @@ public class MainView extends Application {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(VIewController.class.getResource("MainView.fxml"));
+            loader.setLocation(ViewController.class.getResource("MainView.fxml"));
             rootLayout = loader.load();
 
             // Show the scene containing the root layout.
@@ -73,21 +77,12 @@ public class MainView extends Application {
         }
     }
 
-
-
-
     /**
      * Returns the main stage.
      * @return
      */
     public Stage getPrimaryStage() {
         return primaryStage;
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-
-
     }
 
     public ObservableList<SchoolView> getSchoolsViewsList() {
