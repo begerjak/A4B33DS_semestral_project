@@ -4,7 +4,6 @@ import controller.MainView;
 import controller.dao.impl.SchoolDAOImpl;
 import controller.dao.impl.StudentDAOImpl;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import model.db_schema.GroupsEntity;
@@ -23,50 +22,6 @@ import java.util.ArrayList;
  */
 public class ViewController {
     MainView mainApp;
-    //**********************************************************************************************************************
-//  Table school
-//**********************************************************************************************************************
-    SchoolView selectedSchoolView;
-    //**********************************************************************************************************************
-//  Table group
-//**********************************************************************************************************************
-    GroupView selectedGroupView;
-    //**********************************************************************************************************************
-//  Table students
-//**********************************************************************************************************************
-    StudentView selestedStudentView;
-    @FXML
-    private TableView<SchoolView> tbvSchools;
-    @FXML
-    private TableColumn<SchoolView, Integer> tbvSchoolsID;
-    @FXML
-    private TableColumn<SchoolView, String> tbvSchoolsName;
-    @FXML
-    private TableColumn<SchoolView, String> tbvSchoolsDecs;
-    @FXML
-    private TableColumn<SchoolView, String> tbvSchoolsCounty;
-    @FXML
-    private Button btnSchoolsUpdate;
-    @FXML
-    private TableView<GroupView> tbvGroup;
-    @FXML
-    private TableColumn<GroupView, Integer> tbvGroupId;
-    @FXML
-    private TableColumn<GroupView, String> tbvGroupName;
-    @FXML
-    private TableView<StudentView> tbvStudent;
-    @FXML
-    private TableColumn<StudentView, Integer> tbvStudentId;
-    @FXML
-    private TableColumn<StudentView, String> tbvStudentName;
-    @FXML
-    private TableColumn<StudentView, String> tbvStudentEmail;
-    @FXML
-    private TableColumn<StudentView, String> tbvStudentPass;
-    @FXML
-    private TableColumn<StudentView, String> tbvStudentFrom;
-    @FXML
-    private TableColumn<StudentView, String> tbvStudentTo;
 
     public ViewController() {
     }
@@ -90,6 +45,22 @@ public class ViewController {
         initTableGroup();
         initTableStudents();
     }
+
+
+//**********************************************************************************************************************
+//  Table school
+//**********************************************************************************************************************
+    SchoolView selectedSchoolView;
+    @FXML
+    private TableView<SchoolView> tbvSchools;
+    @FXML
+    private TableColumn<SchoolView, Integer> tbvSchoolsID;
+    @FXML
+    private TableColumn<SchoolView, String> tbvSchoolsName;
+    @FXML
+    private TableColumn<SchoolView, String> tbvSchoolsDecs;
+    @FXML
+    private TableColumn<SchoolView, String> tbvSchoolsCounty;
 
     private void initTableSchool() {
         tbvSchoolsID.setCellValueFactory(cellData -> cellData.getValue().getIdProp().asObject());
@@ -124,6 +95,18 @@ public class ViewController {
         return tbvSchools;
     }
 
+
+//**********************************************************************************************************************
+//  Table group
+//**********************************************************************************************************************
+    GroupView selectedGroupView;
+    @FXML
+    private TableView<GroupView> tbvGroup;
+    @FXML
+    private TableColumn<GroupView, Integer> tbvGroupId;
+    @FXML
+    private TableColumn<GroupView, String> tbvGroupName;
+
     private void initTableGroup() {
         tbvGroupId.setCellValueFactory(cellData -> cellData.getValue().getIdProp().asObject());
         tbvGroupName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
@@ -156,6 +139,25 @@ public class ViewController {
         return tbvGroup;
     }
 
+//**********************************************************************************************************************
+//  Table students
+//**********************************************************************************************************************
+    StudentView selestedStudentView;
+    @FXML
+    private TableView<StudentView> tbvStudent;
+    @FXML
+    private TableColumn<StudentView, Integer> tbvStudentId;
+    @FXML
+    private TableColumn<StudentView, String> tbvStudentName;
+    @FXML
+    private TableColumn<StudentView, String> tbvStudentEmail;
+    @FXML
+    private TableColumn<StudentView, String> tbvStudentPass;
+    @FXML
+    private TableColumn<StudentView, String> tbvStudentFrom;
+    @FXML
+    private TableColumn<StudentView, String> tbvStudentTo;
+
     private void initTableStudents() {
         tbvStudentId.setCellValueFactory(cellData -> cellData.getValue().getIdProp().asObject());
         tbvStudentName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
@@ -164,7 +166,7 @@ public class ViewController {
         tbvStudentFrom.setCellValueFactory(cellData -> cellData.getValue().studFromProperty());
         tbvStudentTo.setCellValueFactory(cellData -> cellData.getValue().studToProperty());
         tbvStudent.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> updateSelectedSrudent(newValue)
+                (observable, oldValue, newValue) -> updateSelectedStudent(newValue)
         );
     }
 
@@ -186,7 +188,7 @@ public class ViewController {
         }
     }
 
-    private void updateSelectedSrudent(StudentView studentView) {
+    private void updateSelectedStudent(StudentView studentView) {
         selestedStudentView = studentView;
     }
 
