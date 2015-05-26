@@ -8,10 +8,15 @@ package controller;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import view.SchoolDialogController;
 import view.ViewController;
 import view.view_model.GroupView;
 import view.view_model.SchoolView;
@@ -39,11 +44,12 @@ public class MainView extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        System.out.println("start");
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("DS semestral project");
 
         initRootLayout();
-
+        viewController.onClickBtnSchoolsUpdate();
 
 
     }
@@ -62,8 +68,16 @@ public class MainView extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
-
-
+            primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent event) {
+                    try {
+                        stop();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
 
 
             viewController = loader.getController();
@@ -96,4 +110,36 @@ public class MainView extends Application {
     public ObservableList<StudentView> getStudentsViewsList() {
         return studentsViewsList;
     }
+
+
+    public boolean showSchoolDialog(SchoolView schoolView, String title){
+        try {
+            // Load the fxml file and create a new stage for the popup dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(ViewController.class.getResource("SchoolDialogView.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle(title);
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the schoolView into the controller.
+            SchoolDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setSchoolView(schoolView);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

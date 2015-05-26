@@ -1,9 +1,12 @@
 package view;
 
 import controller.MainView;
+import controller.dao.SchoolDAO;
+import controller.dao.impl.HibernateDAOFactory;
 import controller.dao.impl.SchoolDAOImpl;
 import controller.dao.impl.StudentDAOImpl;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import model.db_schema.GroupsEntity;
@@ -80,7 +83,7 @@ public class ViewController {
                     schoolsEntity.getSchoolId(),
                     schoolsEntity.getSchoolName(),
                     schoolsEntity.getSchoolDesc(),
-                    schoolsEntity.getCountriesByCountryId().getCountryName()
+                    schoolsEntity.getCountriesByCountryId()
             );
             mainApp.getSchoolsViewsList().addAll(schoolView);
         }
@@ -93,6 +96,68 @@ public class ViewController {
 
     public TableView getTbvSchools() {
         return tbvSchools;
+    }
+
+    @FXML
+    public void onClickSchoolsEdit(){
+        SchoolView schoolView = tbvSchools.getSelectionModel().getSelectedItem();
+        if (schoolView != null){
+            boolean okClicked = mainApp.showSchoolDialog(schoolView, "Edit School");
+            if (okClicked == false) return;
+
+            SchoolDAO schoolDAO = new HibernateDAOFactory().getSchoolDAO();
+            SchoolsEntity schoolsEntity = schoolDAO.getSchool(schoolView.getId());
+            schoolsEntity.setSchoolName(schoolView.getName());
+            schoolsEntity.setSchoolDesc(schoolView.getDesc());
+            schoolsEntity.setCountryId(schoolView.getCountriesEntity().getCountryId());
+            schoolsEntity.setCountriesByCountryId(schoolView.getCountriesEntity());
+            schoolDAO.updateSchool(schoolsEntity);
+
+            onClickBtnSchoolsUpdate();
+        } else {
+            // Nothing selected.
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("No school selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a school in the table.");
+
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    public void onClickSchoolsNew(){
+        SchoolView schoolView = new SchoolView();
+        boolean okClicked = mainApp.showSchoolDialog(schoolView, "New School");
+        if (!okClicked) return;
+        SchoolsEntity schoolsEntity = new SchoolsEntity();
+        schoolsEntity.setSchoolName(schoolView.getName());
+        schoolsEntity.setSchoolDesc(schoolView.getDesc());
+        schoolsEntity.setCountriesByCountryId(schoolView.getCountriesEntity());
+        schoolsEntity.setCountryId(schoolView.getCountriesEntity().getCountryId());
+        new HibernateDAOFactory().getSchoolDAO().insertSchool(schoolsEntity);
+
+        onClickBtnSchoolsUpdate();
+    }
+
+    @FXML
+    public void onClickSchoolsDetele(){
+        SchoolView schoolView = tbvSchools.getSelectionModel().getSelectedItem();
+        if (schoolView != null){
+            SchoolsEntity schoolsEntity = new HibernateDAOFactory().getSchoolDAO().getSchool(schoolView.getId());
+            new HibernateDAOFactory().getSchoolDAO().deleteSchool(schoolsEntity);
+            onClickBtnSchoolsUpdate();
+        } else {
+            // Nothing selected.
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("No school selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a school in the table.");
+
+            alert.showAndWait();
+        }
     }
 
 
@@ -117,6 +182,7 @@ public class ViewController {
 
     @FXML
     public void onClickBtnGroupsUpdate() {
+        if (selectedSchoolView == null) return;
         SchoolsEntity schoolsEntity = new SchoolDAOImpl().getSchool(selectedSchoolView.getId());
         ArrayList<GroupsEntity> groupsEntities = new ArrayList<>(schoolsEntity.getGroupsesBySchoolId());
         mainApp.getGroupsViewsList().clear();
@@ -137,6 +203,21 @@ public class ViewController {
 
     public TableView<GroupView> getTbvGroup() {
         return tbvGroup;
+    }
+
+    @FXML
+    public void onClickGroupsEdit(){
+
+    }
+
+    @FXML
+    public void onClickGroupsNew(){
+
+    }
+
+    @FXML
+    public void onClickGroupsDelete(){
+
     }
 
 //**********************************************************************************************************************

@@ -17,8 +17,19 @@ public class SchoolsEntity {
     private Collection<GroupsEntity> groupsesBySchoolId;
     private CountriesEntity countriesByCountryId;
 
+    public SchoolsEntity() {
+    }
+
+    public SchoolsEntity(String schoolName, String schoolDesc, CountriesEntity countriesByCountryId) {
+        this.schoolName = schoolName;
+        this.schoolDesc = schoolDesc;
+        this.countriesByCountryId = countriesByCountryId;
+        countryId = countriesByCountryId.getCountryId();
+    }
+
     @Id
-    @Column(name = "school_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "school_id", unique = true, nullable = false)
     public int getSchoolId() {
         return schoolId;
     }

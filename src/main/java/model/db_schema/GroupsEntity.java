@@ -14,7 +14,8 @@ public class GroupsEntity {
     private SchoolsEntity schoolsBySchoolId;
 
     @Id
-    @Column(name = "group_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "group_id", unique = true, nullable = false)
     public int getGroupId() {
         return groupId;
     }

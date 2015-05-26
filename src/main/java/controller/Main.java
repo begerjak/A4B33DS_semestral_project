@@ -1,7 +1,9 @@
 package controller;
 
 import controller.dao.SchoolDAO;
+import controller.dao.impl.HibernateDAOFactory;
 import controller.dao.impl.SchoolDAOImpl;
+import model.db_schema.CountriesEntity;
 import model.db_schema.SchoolsEntity;
 
 import java.util.ArrayList;
@@ -60,7 +62,11 @@ public class Main {
 //        groupDAO.updateGroup(ge);
 //        System.out.println(ge);
 
+
         SchoolDAO schoolDAO = new SchoolDAOImpl();
+        CountriesEntity countriesEntity = new HibernateDAOFactory().getCountryDAO().listAllCountries().get(0);
+        schoolDAO.insertSchool(new SchoolsEntity("Blb8kov", "desc", countriesEntity));
+        schoolDAO.insertSchool(new SchoolsEntity("tstav", "desc@", countriesEntity));
         ArrayList<SchoolsEntity> schoolsEntities = schoolDAO.listAllSchools();
         for (SchoolsEntity schoolsEntity : schoolsEntities){
             System.out.println(schoolsEntity.toString());

@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<ScrollPane xmlns:fx="http://javafx.com/fxml/1" fitToHeight="true" fitToWidth="true"
-            xmlns="http://javafx.com/javafx/8.0.40" fx:controller="view.ViewController">
+<ScrollPane fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ViewController">
    <content>
       <StackPane minHeight="-Infinity" minWidth="-Infinity">
          <children>
@@ -43,8 +41,9 @@
                               <AnchorPane GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                  <children>
                                     <Button fx:id="btnSchoolsUpdate" layoutX="4.0" mnemonicParsing="false" onAction="#onClickBtnSchoolsUpdate" prefWidth="90.0" text="Update" />
-                                    <Button layoutX="3.0" layoutY="28.0" mnemonicParsing="false" prefWidth="90.0" text="Edit" />
-                                    <Button layoutX="3.0" layoutY="56.0" mnemonicParsing="false" prefWidth="90.0" text="Delete" />
+                                    <Button layoutX="4.0" layoutY="57.0" mnemonicParsing="false" onAction="#onClickSchoolsEdit" prefWidth="90.0" text="Edit" translateY="5.0" />
+                                    <Button layoutX="4.0" layoutY="89.0" mnemonicParsing="false" onAction="#onClickSchoolsDetele" prefWidth="90.0" text="Delete" translateY="5.0" />
+                                    <Button layoutX="4.0" layoutY="26.0" mnemonicParsing="false" onAction="#onClickSchoolsNew" prefHeight="26.0" prefWidth="90.0" text="New" translateY="5.0" />
                                  </children>
                               </AnchorPane>
                            </children>
@@ -74,8 +73,9 @@
                               <AnchorPane GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                  <children>
                                     <Button fx:id="btnSchoolsUpdate1" layoutX="4.0" mnemonicParsing="false" onAction="#onClickBtnGroupsUpdate" prefWidth="90.0" text="Update" />
-                                    <Button layoutX="3.0" layoutY="28.0" mnemonicParsing="false" prefWidth="90.0" text="Edit" />
-                                    <Button layoutX="3.0" layoutY="56.0" mnemonicParsing="false" prefWidth="90.0" text="Delete" />
+                                    <Button layoutX="2.0" layoutY="57.0" mnemonicParsing="false" onAction="#onClickGroupsEdit" prefWidth="90.0" text="Edit" translateY="5.0" />
+                                    <Button layoutX="2.0" layoutY="88.0" mnemonicParsing="false" onAction="#onClickGroupsDelete" prefWidth="90.0" text="Delete" translateY="5.0" />
+                                    <Button layoutX="2.0" layoutY="26.0" mnemonicParsing="false" onAction="#onClickGroupsNew" prefWidth="90.0" text="New" translateY="5.0" />
                                  </children>
                               </AnchorPane>
                            </children>
@@ -109,8 +109,9 @@
                               <AnchorPane GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                  <children>
                                     <Button fx:id="btnSchoolsUpdate11" layoutX="4.0" mnemonicParsing="false" onAction="#onClickBtnStudentsUpdate" prefWidth="90.0" text="Update" />
-                                    <Button layoutX="3.0" layoutY="28.0" mnemonicParsing="false" prefWidth="90.0" text="Edit" />
-                                    <Button layoutX="3.0" layoutY="56.0" mnemonicParsing="false" prefWidth="90.0" text="Delete" />
+                                    <Button layoutX="4.0" layoutY="57.0" mnemonicParsing="false" prefWidth="90.0" text="Edit" translateY="5.0" />
+                                    <Button layoutX="4.0" layoutY="90.0" mnemonicParsing="false" prefWidth="90.0" text="Delete" translateY="5.0" />
+                                    <Button layoutX="4.0" layoutY="26.0" mnemonicParsing="false" prefWidth="90.0" text="New" translateY="5.0" />
                                  </children>
                               </AnchorPane>
                            </children>
