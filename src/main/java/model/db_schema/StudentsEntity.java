@@ -28,8 +28,7 @@ public class StudentsEntity {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", unique = true, nullable = false)
+    @Column(name = "user_id")
     public int getUserId() {
         return userId;
     }

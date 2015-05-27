@@ -15,6 +15,8 @@ public class GroupView {
     private  StringProperty name;
 
     public GroupView() {
+        this.id = new SimpleIntegerProperty();
+        this.name = new SimpleStringProperty();
     }
 
     public GroupView(int id, String name) {

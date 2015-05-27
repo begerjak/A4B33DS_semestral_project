@@ -11,6 +11,7 @@ import javax.persistence.*;
 public class GroupsEntity {
     private int groupId;
     private int number;
+    private int schoolId;
     private SchoolsEntity schoolsBySchoolId;
 
     @Id
@@ -33,6 +34,15 @@ public class GroupsEntity {
         this.number = number;
     }
 
+    @Column(name = "school_id")
+    public int getSchoolId() {
+        return schoolId;
+    }
+
+    public void setSchoolId(int schoolId) {
+        this.schoolId = schoolId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -42,6 +52,7 @@ public class GroupsEntity {
 
         if (groupId != that.groupId) return false;
         if (number != that.number) return false;
+        if (schoolId != that.schoolId) return false;
 
         return true;
     }
@@ -50,12 +61,13 @@ public class GroupsEntity {
     public int hashCode() {
         int result = groupId;
         result = 31 * result + number;
+        result = 31 * result + schoolId;
+        result = 31 * result + (schoolsBySchoolId != null ? schoolsBySchoolId.hashCode() : 0);
         return result;
     }
 
-
     @ManyToOne
-    @JoinColumn(name = "school_id", referencedColumnName = "school_id", nullable = false)
+    @JoinColumn(name = "school_id", referencedColumnName = "school_id", nullable = false, insertable = false, updatable = false)
     public SchoolsEntity getSchoolsBySchoolId() {
         return schoolsBySchoolId;
     }

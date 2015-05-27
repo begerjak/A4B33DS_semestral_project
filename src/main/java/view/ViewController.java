@@ -1,7 +1,10 @@
 package view;
 
 import controller.MainView;
+import controller.dao.GroupDAO;
 import controller.dao.SchoolDAO;
+import controller.dao.StudentDAO;
+import controller.dao.UserDAO;
 import controller.dao.impl.HibernateDAOFactory;
 import controller.dao.impl.SchoolDAOImpl;
 import controller.dao.impl.StudentDAOImpl;
@@ -12,11 +15,16 @@ import javafx.scene.control.TableView;
 import model.db_schema.GroupsEntity;
 import model.db_schema.SchoolsEntity;
 import model.db_schema.StudentsEntity;
+import model.db_schema.UsersEntity;
 import view.view_model.GroupView;
 import view.view_model.SchoolView;
 import view.view_model.StudentView;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 /**
@@ -183,10 +191,10 @@ public class ViewController {
     @FXML
     public void onClickBtnGroupsUpdate() {
         if (selectedSchoolView == null) return;
-        SchoolsEntity schoolsEntity = new SchoolDAOImpl().getSchool(selectedSchoolView.getId());
-        ArrayList<GroupsEntity> groupsEntities = new ArrayList<>(schoolsEntity.getGroupsesBySchoolId());
+        ArrayList<GroupsEntity> groupsEntities = new HibernateDAOFactory().getGroupDAO().listAllGroups();
         mainApp.getGroupsViewsList().clear();
         for (GroupsEntity groupsEntity : groupsEntities) {
+            if (groupsEntity.getSchoolId() != selectedSchoolView.getId()) continue;
             GroupView groupView = new GroupView(
                     groupsEntity.getGroupId(),
                     String.valueOf(groupsEntity.getNumber())
@@ -194,6 +202,7 @@ public class ViewController {
             mainApp.getGroupsViewsList().addAll(groupView);
         }
     }
+
 
     private void updateSelectedGrpup(
             GroupView groupView) {
@@ -207,17 +216,63 @@ public class ViewController {
 
     @FXML
     public void onClickGroupsEdit(){
+        GroupView groupView = tbvGroup.getSelectionModel().getSelectedItem();
+        if (groupView != null){
+            boolean okClicked = mainApp.showGroupDialog(groupView, "Edit Group");
+            if (okClicked == false) return;
 
+            GroupDAO groupDAO = new HibernateDAOFactory().getGroupDAO();
+            GroupsEntity groupsEntity = groupDAO.getGroup(groupView.getId());
+            groupsEntity.setNumber(Integer.parseInt(groupView.getName()));
+            groupsEntity.setSchoolsBySchoolId(new HibernateDAOFactory().getSchoolDAO().getSchool(selectedSchoolView.getId()));
+            groupDAO.updateGroup(groupsEntity);
+
+            onClickBtnGroupsUpdate();
+        } else {
+            // Nothing selected.
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("No group selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a group in the table.");
+
+            alert.showAndWait();
+        }
     }
 
     @FXML
     public void onClickGroupsNew(){
+        GroupView groupView = new GroupView();
+        boolean okClicked = mainApp.showGroupDialog(groupView, "New Group");
+        if (!okClicked) return;
+        GroupsEntity groupsEntity = new GroupsEntity();
+        groupsEntity.setNumber(Integer.parseInt(groupView.getName()));
+        SchoolsEntity schoolsEntity = new HibernateDAOFactory().getSchoolDAO().getSchool(selectedSchoolView.getId());
+        groupsEntity.setSchoolsBySchoolId(schoolsEntity);
+        groupsEntity.setSchoolId(schoolsEntity.getSchoolId());
 
+        new HibernateDAOFactory().getGroupDAO().insertGroup(groupsEntity);
+
+        onClickBtnGroupsUpdate();
     }
 
     @FXML
     public void onClickGroupsDelete(){
+        GroupView groupView = tbvGroup.getSelectionModel().getSelectedItem();
+        if (groupView != null){
+            GroupsEntity groupsEntity = new HibernateDAOFactory().getGroupDAO().getGroup(groupView.getId());
+            new HibernateDAOFactory().getGroupDAO().deleteGroup(groupsEntity);
+            onClickBtnGroupsUpdate();
+        } else {
+            // Nothing selected.
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("No group selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a group in the table.");
 
+            alert.showAndWait();
+        }
     }
 
 //**********************************************************************************************************************
@@ -253,18 +308,32 @@ public class ViewController {
 
     @FXML
     public void onClickBtnStudentsUpdate() {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        if (selectedGroupView == null) return;
         ArrayList<StudentsEntity> studentsEntities = new StudentDAOImpl().listAllStudents();
         mainApp.getStudentsViewsList().clear();
         for (StudentsEntity studentsEntity : studentsEntities) {
             if (studentsEntity.getGroupId() != selectedGroupView.getId()) continue;
+            String dateFromS = "null", dateToS = "null";
+            Date dateFrom = null, dateTo = null;
+            if (studentsEntity.getStudentFrom() != null){
+                dateFrom = new Date(studentsEntity.getStudentFrom().getTime());
+                dateFromS = df.format(dateFrom);
+            }
+            if (studentsEntity.getStudentTo() != null){
+                dateTo = new Date(studentsEntity.getStudentTo().getTime());
+                dateToS = df.format(dateTo);
+            }
             StudentView studentView = new StudentView(
                     studentsEntity.getUserId(),
                     studentsEntity.getUserByUsersEntityId().getName(),
                     studentsEntity.getUserByUsersEntityId().getEmail(),
                     studentsEntity.getUserByUsersEntityId().getPassword(),
-                    "",//studentsEntity.getStudentFrom().toString(),
-                    ""//studentsEntity.getStudentTo().toString()
+                    dateFromS,//studentsEntity.getStudentFrom().toString(),
+                    dateToS//studentsEntity.getStudentTo().toString()
             );
+            studentView.setStudentFrom(dateFrom);
+            studentView.setStudentTo(dateTo);
             mainApp.getStudentsViewsList().addAll(studentView);
         }
     }
@@ -275,5 +344,92 @@ public class ViewController {
 
     public TableView<StudentView> getTbvStudent() {
         return tbvStudent;
+    }
+
+    @FXML
+    public void onClickStudentEdit(){
+        StudentView studentView = tbvStudent.getSelectionModel().getSelectedItem();
+        if (studentView != null){
+            boolean okClicked = mainApp.showStudentDialog(studentView, "Edit Student - " + studentView.getName());
+            if (okClicked == false) return;
+
+            StudentDAO studentDAO = new HibernateDAOFactory().getStudentDAO();
+            UserDAO userDAO = new HibernateDAOFactory().getUserDAO();
+
+            StudentsEntity studentsEntity = studentDAO.getStudent(studentView.getId());
+            UsersEntity usersEntity = userDAO.getUser(studentView.getId());
+
+            studentsEntity.setStudentFrom(new Timestamp(studentView.getStudentFrom().getTime()));
+            studentsEntity.setStudentTo(new Timestamp(studentView.getStudentTo().getTime()));
+
+            usersEntity.setName(studentView.getName());
+            usersEntity.setEmail(studentView.getEmail());
+            usersEntity.setPassword(studentView.getPass());
+
+            studentDAO.updateStudent(studentsEntity);
+            userDAO.updateUser(usersEntity);
+
+            onClickBtnStudentsUpdate();
+        } else {
+            // Nothing selected.
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("No student selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a student in the table.");
+
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    public void onClickStudentNew(){
+        StudentView studentView = new StudentView();
+        boolean okClicked = mainApp.showStudentDialog(studentView, "New Student");
+        if (!okClicked) return;
+
+
+        UsersEntity usersEntity = new UsersEntity();
+        usersEntity.setName(studentView.getName());
+        usersEntity.setEmail(studentView.getEmail());
+        usersEntity.setPassword(studentView.getPass());
+        int insertedUserId = new HibernateDAOFactory().getUserDAO().insertUser(usersEntity);
+
+        StudentsEntity studentsEntity = new StudentsEntity();
+        studentsEntity.setStudentFrom(new Timestamp(studentView.getStudentFrom().getTime()));
+        studentsEntity.setStudentTo(new Timestamp(studentView.getStudentTo().getTime()));
+        studentsEntity.setUserId(insertedUserId);
+        studentsEntity.setUserByUsersEntityId(usersEntity);
+        studentsEntity.setGroupId(selectedGroupView.getId());
+        studentsEntity.setGroupsByGroupId(new HibernateDAOFactory().getGroupDAO().getGroup(selectedGroupView.getId()));
+        new HibernateDAOFactory().getStudentDAO().insertStudent(studentsEntity);
+
+        onClickBtnStudentsUpdate();
+    }
+
+    @FXML
+    public void onClickStudentDelete(){
+        StudentView studentView = tbvStudent.getSelectionModel().getSelectedItem();
+        if (studentView != null){
+            StudentDAO studentDAO = new HibernateDAOFactory().getStudentDAO();
+            UserDAO userDAO = new HibernateDAOFactory().getUserDAO();
+
+            StudentsEntity studentsEntity = studentDAO.getStudent(studentView.getId());
+            UsersEntity usersEntity = userDAO.getUser(studentView.getId());
+
+            studentDAO.deleteStudent(studentsEntity);
+            userDAO.deleteUser(usersEntity);
+
+            onClickBtnStudentsUpdate();
+        } else {
+            // Nothing selected.
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("No student selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a student in the table.");
+
+            alert.showAndWait();
+        }
     }
 }

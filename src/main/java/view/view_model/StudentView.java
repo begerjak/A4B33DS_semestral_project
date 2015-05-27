@@ -5,6 +5,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.util.Date;
+
 /**
  * Copyright 2015 IEAP CTU
  * Author: Jakub Begera (jakub.begera@utef.cvut.cz)
@@ -13,9 +15,16 @@ public class StudentView {
 
     private IntegerProperty id;
     private  StringProperty name, email, pass, studFrom, studTo;
+    private Date studentFrom, studentTo;
 
 
     public StudentView() {
+        this.id = new SimpleIntegerProperty();
+        this.name = new SimpleStringProperty();
+        this.email = new SimpleStringProperty();
+        this.pass = new SimpleStringProperty();
+        this.studFrom = new SimpleStringProperty();
+        this.studTo = new SimpleStringProperty();
     }
 
     public StudentView(int id, String name, String email, String pass, String studFrom, String studTo) {
@@ -103,5 +112,21 @@ public class StudentView {
 
     public void setStudTo(String studTo) {
         this.studTo.set(studTo);
+    }
+
+    public Date getStudentFrom() {
+        return studentFrom;
+    }
+
+    public void setStudentFrom(Date studentFrom) {
+        this.studentFrom = studentFrom;
+    }
+
+    public Date getStudentTo() {
+        return studentTo;
+    }
+
+    public void setStudentTo(Date studentTo) {
+        this.studentTo = studentTo;
     }
 }
